@@ -11,15 +11,7 @@ import {
 } from 'react-native';
 import RegisterPetStyles from '../styles/RegisterPetStyles';
 
-const INITIAL_FORM = {
-  name: '',
-  species: '',
-  breed: '',
-  age: '',
-  weight: '',
-};
-
-function RegisterPetScreen() {
+function RegisterPetScreen({ navigation }) {
   const [name, setName] = useState('');
   const [species, setSpecies] = useState('');
   const [breed, setBreed] = useState('');
@@ -29,17 +21,10 @@ function RegisterPetScreen() {
 
   // Validates the form in real time whenever a field changes
   useEffect(() => {
-    const allFilled = name.trim() && species.trim() && breed.trim() && age.trim() && weight.trim();
+    const allFilled =
+      name.trim() && species.trim() && breed.trim() && age.trim() && weight.trim();
     setIsFormValid(!!allFilled);
   }, [name, species, breed, age, weight]);
-
-  function handleRegister() {
-    Alert.alert(
-      'Mascota Registrada',
-      `Nombre: ${name}\nEspecie: ${species}\nRaza: ${breed}\nEdad: ${age} años\nPeso: ${weight} kg`,
-      [{ text: 'OK' }]
-    );
-  }
 
   function handleClear() {
     setName('');
@@ -47,6 +32,22 @@ function RegisterPetScreen() {
     setBreed('');
     setAge('');
     setWeight('');
+  }
+
+  function handleRegister() {
+    const newPet = { name, species, breed, age, weight };
+
+    // Sends the new pet to PetListScreen via navigation params
+    navigation.navigate('Mascotas', {
+      screen: 'PetList',
+      params: { newPet },
+    });
+
+    Alert.alert(
+      'Mascota Registrada',
+      `Nombre: ${name}\nEspecie: ${species}\nRaza: ${breed}\nEdad: ${age} años\nPeso: ${weight} kg`,
+      [{ text: 'OK', onPress: handleClear }]
+    );
   }
 
   return (

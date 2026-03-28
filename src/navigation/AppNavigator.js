@@ -12,7 +12,6 @@ import TipsScreen from '../screens/TipsScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// Tab icon using emoji to avoid external icon dependencies
 function TabIcon({ emoji, focused }) {
   return (
     <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5 }}>{emoji}</Text>

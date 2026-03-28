@@ -2,22 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, FlatList, Text, TouchableOpacity, View } from 'react-native';
 import PetListStyles from '../styles/PetListStyles';
 import { getSpeciesEmoji } from '../data/speciesData';
-
-// Initial sample data simulating an API response
-const INITIAL_PETS = [
-  { id: '1', name: 'Luna', species: 'Perro', breed: 'Labrador', age: 3, weight: 28 },
-  { id: '2', name: 'Michi', species: 'Gato', breed: 'Siamés', age: 5, weight: 4 },
-  { id: '3', name: 'Rocky', species: 'Perro', breed: 'Bulldog', age: 2, weight: 20 },
-  { id: '4', name: 'Pilo', species: 'Pájaro', breed: 'Canario', age: 1, weight: 0.3 },
-];
+import INITIAL_PETS from '../data/petsData';
 
 function PetListScreen({ navigation }) {
-  const [pets, setPets] = useState([]);
+  const [pets, setPets] = useState(INITIAL_PETS);
 
-  // Simulates loading data from an API on mount
+  // Listens for new pets added from RegisterPetScreen
   useEffect(() => {
-    setPets(INITIAL_PETS);
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      const newPet = navigation.getState()?.routes?.find(
+        (r) => r.name === 'PetList'
+      )?.params?.newPet;
+
+      if (newPet) {
+        setPets((prev) => [...prev, { ...newPet, id: String(Date.now()) }]);
+        navigation.setParams({ newPet: null });
+      }
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   function handlePetPress(pet) {
     navigation.navigate('PetDetail', { pet });
@@ -45,7 +48,9 @@ function PetListScreen({ navigation }) {
         data={pets}
         keyExtractor={(item) => item.id}
         renderItem={renderPetCard}
-        ListEmptyComponent={<Text style={PetListStyles.emptyText}>No hay mascotas registradas.</Text>}
+        ListEmptyComponent={
+          <Text style={PetListStyles.emptyText}>No hay mascotas registradas.</Text>
+        }
       />
     </SafeAreaView>
   );

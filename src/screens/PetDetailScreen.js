@@ -42,19 +42,6 @@ function PetDetailScreen({ route, navigation }) {
           <Text style={PetDetailStyles.infoLabel}>Peso</Text>
           <Text style={PetDetailStyles.infoValue}>{pet.weight} kg</Text>
         </View>
-        <View style={PetDetailStyles.infoRow}>
-          <Text style={PetDetailStyles.infoLabel}>Visitas a esta pantalla</Text>
-          <Text style={PetDetailStyles.infoValue}>{visitCount}</Text>
-        </View>
-
-        <TouchableOpacity
-          style={PetDetailStyles.favoriteButton}
-          onPress={handleToggleFavorite}
-        >
-          <Text style={PetDetailStyles.favoriteText}>
-            {isFavorite ? '❤️ Favorito' : '🤍 Agregar a favoritos'}
-          </Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={PetDetailStyles.backButton}
