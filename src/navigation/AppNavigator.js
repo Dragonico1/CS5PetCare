@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import PetListScreen from '../screens/PetListScreen';
 import PetDetailScreen from '../screens/PetDetailScreen';
@@ -37,36 +38,41 @@ function PetsStack() {
 
 function AppNavigator() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarActiveTintColor: '#3a6fd8',
-        }}
-      >
-        <Tab.Screen
-          name="Mascotas"
-          component={PetsStack}
-          options={{
-            tabBarIcon: ({ focused }) => <TabIcon emoji="🐾" focused={focused} />,
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={{
+            headerShown: true,
+            tabBarActiveTintColor: '#3a6fd8',
           }}
-        />
-        <Tab.Screen
-          name="Registrar"
-          component={RegisterPetScreen}
-          options={{
-            tabBarIcon: ({ focused }) => <TabIcon emoji="➕" focused={focused} />,
-          }}
-        />
-        <Tab.Screen
-          name="Consejos"
-          component={TipsScreen}
-          options={{
-            tabBarIcon: ({ focused }) => <TabIcon emoji="💡" focused={focused} />,
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+        >
+          <Tab.Screen
+            name="Mascotas"
+            component={PetsStack}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ focused }) => <TabIcon emoji="🐾" focused={focused} />,
+            }}
+          />
+          <Tab.Screen
+            name="Registrar Mascota"
+            component={RegisterPetScreen}
+            options={{
+              title: 'Registrar',
+              tabBarIcon: ({ focused }) => <TabIcon emoji="➕" focused={focused} />,
+            }}
+          />
+          <Tab.Screen
+            name="Consejos"
+            component={TipsScreen}
+            options={{
+              title: 'Consejos',
+              tabBarIcon: ({ focused }) => <TabIcon emoji="💡" focused={focused} />,
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 

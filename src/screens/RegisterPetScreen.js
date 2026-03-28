@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -9,6 +8,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import RegisterPetStyles from '../styles/RegisterPetStyles';
 
 function RegisterPetScreen({ navigation }) {
@@ -37,7 +37,6 @@ function RegisterPetScreen({ navigation }) {
   function handleRegister() {
     const newPet = { name, species, breed, age, weight };
 
-    // Sends the new pet to PetListScreen via navigation params
     navigation.navigate('Mascotas', {
       screen: 'PetList',
       params: { newPet },
@@ -51,14 +50,12 @@ function RegisterPetScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={RegisterPetStyles.container}>
+    <SafeAreaView style={RegisterPetStyles.container} edges={['bottom']}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={RegisterPetStyles.title}>Registrar Mascota</Text>
-
           <Text style={RegisterPetStyles.label}>Nombre</Text>
           <TextInput
             style={RegisterPetStyles.input}

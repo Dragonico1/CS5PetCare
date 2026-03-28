@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import PetListStyles from '../styles/PetListStyles';
 import { getSpeciesEmoji } from '../data/speciesData';
 import INITIAL_PETS from '../data/petsData';
@@ -42,8 +43,7 @@ function PetListScreen({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={PetListStyles.container}>
-      <Text style={PetListStyles.title}>Mis Mascotas</Text>
+    <SafeAreaView style={PetListStyles.container} edges={['bottom']}>
       <FlatList
         data={pets}
         keyExtractor={(item) => item.id}
